@@ -20,7 +20,7 @@
 <title>首页</title>
 </head>
 <body>
-	<c:set var="username" value="${username}"></c:set>
+	<c:set var="username" value="${returnusername}"></c:set>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
 		<div class="navbar navbar-default">
