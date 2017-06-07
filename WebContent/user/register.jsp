@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link
@@ -43,11 +44,11 @@
 						<div class="panel-body">
 							<div class="form-group">
 								<label for="usernameInput">用户名</label> <input type="text"
-									id="username" class="form-control">
+									name="username" id="username" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="passwordInput">密码</label> <input type="password"
-									id="password" class="form-control">
+									name="password" id="password" class="form-control">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary btn-block">注册</button>

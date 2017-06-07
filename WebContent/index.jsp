@@ -30,12 +30,15 @@
 				</div>
 				<!-- 布局在导航栏右侧 -->
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./user/register.jsp">注册</a></li>
-					<li><a href="./user/login.jsp"><c:choose>
-								<c:when test="${username != null}">${username}</c:when>
-								<c:otherwise>登录
-					 </c:otherwise>
-							</c:choose></a></li>
+					<c:choose>
+						<c:when test="${username != null}">
+							<li><a href="./user/user_detail.jsp">${username}</a></li>
+							<li><a href="">注销</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="./user/register.jsp">注册</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

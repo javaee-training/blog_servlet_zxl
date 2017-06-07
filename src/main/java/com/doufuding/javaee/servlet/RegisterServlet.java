@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -26,8 +27,8 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("不接受Get请求").append(request.getContextPath());
+		//response.getWriter().append("不接受Get请求").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -35,6 +36,18 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//doGet(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+		String username = request.getParameter("username").trim();
+		String password = request.getParameter("password").trim();
+		HttpSession session = request.getSession();
+		if (!(username.equals("") && password.equals(""))) {
+			session.setAttribute("returnusername", username);
+			//request.getRequestDispatcher("../index.jsp").forward(request, response);
+			response.sendRedirect("../index.jsp");
+		} else {
+			//request.getRequestDispatcher("register.jsp").forward(request, response);
+			response.sendRedirect("register.jsp");
+		}
 	}
 
 }

@@ -15,6 +15,11 @@
 <title>登录</title>
 </head>
 <body>
+	<script type="text/javascript">
+		function check() {
+			alert("!");
+		}
+	</script>
 	<c:set var="returnusername" value="${returnusername}"></c:set>
 	<div class="container-fluid">
 		<nav class="navbar navbar-default" role="navigation">
