@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <!-- JSTL 核心标签库 -->
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- JSTL 函数标签库 -->
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!-- JSTL 国际化即格式化文本标签 -->
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +17,10 @@
 <link
 	href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet">
+<link
+	href="http://cdn.bootcss.com/github-markdown-css/2.5.0/github-markdown.min.css"
+	rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 <script type="text/javascript"
 	src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript"
