@@ -1,4 +1,4 @@
-package com.doufuding.java;
+package com.doufuding.java.model;
 
 public class BlogInfo {
 	

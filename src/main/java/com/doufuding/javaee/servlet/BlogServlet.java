@@ -8,10 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.doufuding.java.BlogInfo;
-import com.doufuding.java.PageInfo;
-import com.doufuding.java.TagInfo;
-import com.doufuding.java.UserInfo;
+import com.doufuding.java.model.BlogInfo;
+import com.doufuding.java.model.PageInfo;
+import com.doufuding.java.model.TagInfo;
+import com.doufuding.java.model.UserInfo;
 
 /**
  * Servlet implementation class BlogServlet
