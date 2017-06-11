@@ -19,32 +19,38 @@
 <title>登录</title>
 </head>
 <body>
-	<script type="text/javascript">
-		function check() {
-			alert("!");
-		}
-	</script>
-	<c:set var="returnusername" value="${returnusername}"></c:set>
+	<%
+		String path = request.getContextPath() + "/jsp";
+	%>
 	<div class="container-fluid">
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="../index.jsp">张三的博客</a>
+					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./register.jsp">注册</a></li>
-					<li><a href="./login.jsp"><c:choose>
-								<c:when test="${returnusername != null}">张希乐</c:when>
-								<c:when test="${returnusername == null}">登录</c:when>
-							</c:choose></a></li>
+					<c:choose>
+						<c:when test="${userInfo == null}">
+							<li><a href="<%=path%>/user/register.jsp">注册</a></li>
+							<li><a href="<%=path%>/user/login.jsp">登录</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="#">${userInfo.loginName}</a></li>
+							<li><a href="#">退出</a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</nav>
 		<div class="row-fluid center-block" style="max-width: 400px;">
-			<div id="isEmpty" class="alert alert-danger" role="alert"
-				style="visibility: hidden;">
-				<i class="fa fa-exclamation-triangle" aria-hidden="true">用户名不能为空</i>
-			</div>
+			<c:choose>
+				<c:when test="${userCheckResult == null}"></c:when>
+				<c:otherwise>
+					<div id="isEmpty" class="alert alert-danger" role="alert">
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResult}</i>
+					</div>
+				</c:otherwise>
+			</c:choose>
 			<div class="center-block">
 				<form action="login" method="post" class="form-signin">
 					<div class="panel panel-default">
@@ -52,15 +58,16 @@
 						<div class="panel-body">
 							<div class="form-group">
 								<label for="usernameInput">用户名</label> <input type="text"
-									name="username" id="username" class="form-control">
+									name="username" id="username" class="form-control"
+									maxlength="10">
 							</div>
 							<div class="form-group">
 								<label for="passwordInput">密码</label> <input type="password"
-									name="password" id="inputpassword" class="form-control">
+									name="password" id="inputpassword" class="form-control"
+									maxlength="10">
 							</div>
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-block"
-									onclick="check()">登录</button>
+								<button type="submit" class="btn btn-primary btn-block">登录</button>
 							</div>
 						</div>
 					</div>
