@@ -7,12 +7,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 
 /**
  * Servlet Filter implementation class CheckNamePwdFilter
  */
-@WebFilter(filterName="checkNamePwdFilter", urlPatterns="/jsp/user/login")
+//此处urlPatterns需要匹配多个Servlet，只能在web.xml中配置
+//@WebFilter(filterName="checkNamePwdFilter", urlPatterns="/jsp/user/login")
 public class CheckNamePwdFilter implements Filter {
 
     /**
@@ -40,7 +40,7 @@ public class CheckNamePwdFilter implements Filter {
 		
 		//校验输入是否为空
 		if (username.isEmpty() || password.isEmpty()) {
-			request.setAttribute("userCheckResult", "警告: 用户名或密码为空!");
+			request.setAttribute("userCheckResult", " 用户名或密码为空!");
 			request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
 			return ;
 		}
@@ -48,7 +48,7 @@ public class CheckNamePwdFilter implements Filter {
 		//校验用户名是否合法
 		for(int i = 0; i < username.length(); i++) {
 			if (isNotLetter(username.charAt(i))) {
-				request.setAttribute("userCheckResult", "用户名只能包含英文字符");
+				request.setAttribute("userCheckResult", " 用户名只能包含英文字符");
 				request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
 				return ;
 			}
@@ -56,7 +56,7 @@ public class CheckNamePwdFilter implements Filter {
 		
 		//校验密码长度是否合法
 		if (password.length() < 3) {
-			request.setAttribute("userCheckResult", "密码最少包含三个字符");
+			request.setAttribute("userCheckResult", " 密码最少包含三个字符");
 			request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
 			return ;
 		}

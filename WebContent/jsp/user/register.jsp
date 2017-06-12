@@ -23,24 +23,33 @@
 <title>注册</title>
 </head>
 <body>
+	<%
+		//获得项目路径
+		String path = request.getContextPath() + "/jsp";
+	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="../index.jsp">张三的博客</a>
+					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./register.jsp">注册</a></li>
-					<li><a href="./login.jsp">登录</a></li>
+					<li><a href="<%=path%>/user/register.jsp">注册</a></li>
+					<li><a href="<%=path%>/user/login.jsp">登录</a></li>
 				</ul>
 			</div>
 		</nav>
 		<div class="row-fluid center-block" style="max-width: 400px;">
 			<!-- 警告框 -->
-			<div class="alert alert-danger" role="alert">
-				<i class="fa fa-exclamation-triangle" aria-hidden="true">用户名不能为空</i>
-			</div>
+			<c:choose>
+				<c:when test="${userCheckResult == null}"></c:when>
+				<c:otherwise>
+					<div id="isEmpty" class="alert alert-danger" role="alert">
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResult}</i>
+					</div>
+				</c:otherwise>
+			</c:choose>
 			<div class="center-block">
 				<!-- 表单 -->
 				<form action="register" method="post" class="form-signin">
@@ -53,7 +62,7 @@
 							</div>
 							<div class="form-group">
 								<label for="passwordInput">密码</label> <input type="password"
-									name="password" id="password" class="form-control">
+									name="password" id="inputpassword" class="form-control">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary btn-block">注册</button>

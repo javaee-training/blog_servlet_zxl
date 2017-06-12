@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.doufuding.java.model.UserInfo;
+
 /**
  * Servlet implementation class RegisterServlet
  */
-@WebServlet(name="register", urlPatterns="/user/register")
+@WebServlet(name="register", urlPatterns="/jsp/user/register")
 public class RegisterServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -39,15 +42,18 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
+		UserInfo userInfo = new UserInfo();
 		HttpSession session = request.getSession();
 		if (!(username.equals("") && password.equals(""))) {
-			session.setAttribute("returnusername", username);
-			//request.getRequestDispatcher("../index.jsp").forward(request, response);
-			response.sendRedirect("../index.jsp");
+			userInfo.setLoginName(username);
+			userInfo.setPassword(password);  
+			session.setAttribute("userInfo", userInfo);
+			//只能一人注册的问题没有解决
+			request.getRequestDispatcher("../index.jsp").forward(request, response);
+			//response.sendRedirect("../index.jsp");
 		} else {
-			//request.getRequestDispatcher("register.jsp").forward(request, response);
-			response.sendRedirect("register.jsp");
+			request.getRequestDispatcher("register.jsp").forward(request, response);
+			//response.sendRedirect("register.jsp");
 		}
 	}
-
 }
