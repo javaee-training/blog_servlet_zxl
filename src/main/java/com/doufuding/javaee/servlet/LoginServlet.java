@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
 		HttpSession session = request.getSession();
-		if (username.equals("zhangxile") && password.equals("123456")) {
+		if (username.equals(RegisterServlet.getUserName()) && password.equals(RegisterServlet.getUserPassword())) {
 			//System.out.println("登录成功");
 			UserInfo userInfo = new UserInfo();
 			userInfo.setLoginName(username);
@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			//System.out.println("登录失败");
 			//request.getRequestDispatcher("../index.jsp").forward(request, response);
+			session.setAttribute("userCheckResult", "用户未注册。");
 			response.sendRedirect("../index.jsp");
 		}
 	}

@@ -29,7 +29,7 @@
 					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<c:choose>
+					<c:choose>0000
 						<c:when test="${userInfo == null}">
 							<li><a href="<%=path%>/user/register.jsp">注册</a></li>
 							<li><a href="<%=path%>/user/login.jsp">登录</a></li>

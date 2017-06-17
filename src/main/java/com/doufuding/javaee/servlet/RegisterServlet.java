@@ -15,16 +15,21 @@ import com.doufuding.java.model.UserInfo;
  */
 @WebServlet(name="register", urlPatterns="/jsp/user/register")
 public class RegisterServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RegisterServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	public static String userName = "";
+
+	public static String userPassword = "";
+
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public RegisterServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,16 +49,53 @@ public class RegisterServlet extends HttpServlet {
 		String password = request.getParameter("password").trim();
 		UserInfo userInfo = new UserInfo();
 		HttpSession session = request.getSession();
-		if (!(username.equals("") && password.equals(""))) {
-			userInfo.setLoginName(username);
-			userInfo.setPassword(password);  
-			session.setAttribute("userInfo", userInfo);
-			//只能一人注册的问题没有解决
-			request.getRequestDispatcher("../index.jsp").forward(request, response);
-			//response.sendRedirect("../index.jsp");
+
+		//判断是否已经注册
+		if (isNotSet(userName)||isNotSet(userPassword)) {
+			if (!(username.equals("") && password.equals(""))) {
+				userInfo.setLoginName(username);
+				userInfo.setPassword(password);
+				setUserName(username);
+				setUserPassword(password);
+				session.setAttribute("isRegister", true);
+				session.setAttribute("userInfo", userInfo);
+				//只能一人注册的问题没有解决
+				request.getRequestDispatcher("../index.jsp").forward(request, response);
+				//response.sendRedirect("../index.jsp");
+			} else {
+				request.getRequestDispatcher("register.jsp").forward(request, response);
+				//response.sendRedirect("register.jsp");
+			}
 		} else {
-			request.getRequestDispatcher("register.jsp").forward(request, response);
-			//response.sendRedirect("register.jsp");
+			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 		}
 	}
+
+	public boolean isNotSet(String str) {
+		if (str.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	private synchronized void setUserName(String username) {
+		if(isNotSet(userName)){
+			RegisterServlet.userName = username;
+		}
+	}
+
+
+	private synchronized void setUserPassword(String userpassword) {
+		if (isNotSet(userPassword)) {
+			RegisterServlet.userPassword = userpassword;	
+		}
+	}
+
+	public static String getUserName() {
+		return RegisterServlet.userName;
+	}
+	public static String getUserPassword() {
+		return RegisterServlet.userPassword;
+	}
+
 }
