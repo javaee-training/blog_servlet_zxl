@@ -7,6 +7,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Servlet Filter implementation class CheckNamePwdFilter
@@ -37,11 +38,13 @@ public class CheckNamePwdFilter implements Filter {
 		// place your code here
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
+		HttpServletRequest req = (HttpServletRequest) request;
+		String uri = req.getServletPath();
 		
 		//校验输入是否为空
 		if (username.isEmpty() || password.isEmpty()) {
 			request.setAttribute("userCheckResult", " 用户名或密码为空!");
-			request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
+			request.getRequestDispatcher(uri+".jsp").forward(request, response);
 			return ;
 		}
 		
@@ -49,7 +52,7 @@ public class CheckNamePwdFilter implements Filter {
 		for(int i = 0; i < username.length(); i++) {
 			if (isNotLetter(username.charAt(i))) {
 				request.setAttribute("userCheckResult", " 用户名只能包含英文字符");
-				request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
+				request.getRequestDispatcher(uri+".jsp").forward(request, response);
 				return ;
 			}
 		}
@@ -57,7 +60,7 @@ public class CheckNamePwdFilter implements Filter {
 		//校验密码长度是否合法
 		if (password.length() < 3) {
 			request.setAttribute("userCheckResult", " 密码最少包含三个字符");
-			request.getRequestDispatcher("/jsp/user/login.jsp").forward(request, response);
+			request.getRequestDispatcher(uri+".jsp").forward(request, response);
 			return ;
 		}
 		

@@ -1,6 +1,9 @@
 package com.doufuding.javaee.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.doufuding.java.model.Md5Util;
+import com.doufuding.java.model.PostgresDriver;
 import com.doufuding.java.model.UserInfo;
 
 /**
@@ -18,9 +23,9 @@ public class RegisterServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static String userName = "";
+	//public static String userName = "";
 
-	public static String userPassword = "";
+	//public static String userPassword = "";
 
 
 	/**
@@ -50,25 +55,41 @@ public class RegisterServlet extends HttpServlet {
 		UserInfo userInfo = new UserInfo();
 		HttpSession session = request.getSession();
 
-		//判断是否已经注册
-		if (isNotSet(userName)||isNotSet(userPassword)) {
-			if (!(username.equals("") && password.equals(""))) {
-				userInfo.setLoginName(username);
-				userInfo.setPassword(password);
-				setUserName(username);
-				setUserPassword(password);
-				session.setAttribute("isRegister", true);
-				session.setAttribute("userInfo", userInfo);
-				//只能一人注册的问题没有解决
-				request.getRequestDispatcher("../index.jsp").forward(request, response);
-				//response.sendRedirect("../index.jsp");
-			} else {
-				request.getRequestDispatcher("register.jsp").forward(request, response);
-				//response.sendRedirect("register.jsp");
-			}
-		} else {
-			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
+		//判断表单已在过滤器checkNamePwdFilter中实现。
+		userInfo.setLoginName(username);
+		userInfo.setPassword(password);
+		
+		//打开数据库链接
+		PostgresDriver postgresDriver = new PostgresDriver();
+		
+		String sql = "insert into bg_user(user_name, user_password) values ('"+username+"','"+Md5Util.getMd5(password)+"')";
+		Statement statement = null;
+		try {
+			statement = postgresDriver.getConnection().createStatement();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		int row = 0;
+		try {
+			row = statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("SQL语句执行错误。");
+		}
+		
+		if (row == 0) {
+			session.setAttribute("userCheckResult", "未知原因导致注册失败。可能该用户已注册。");
+			request.getRequestDispatcher("../user/register.jsp").forward(request, response);
+			return ;
+		}
+		session.setAttribute("isRegister", true);
+		session.setAttribute("userInfo", userInfo);
+		request.getRequestDispatcher("../index.jsp").forward(request, response);
+		//response.sendRedirect("../index.jsp");
+
+
 	}
 
 	public boolean isNotSet(String str) {
@@ -76,26 +97,6 @@ public class RegisterServlet extends HttpServlet {
 			return true;
 		}
 		return false;
-	}
-
-	private synchronized void setUserName(String username) {
-		if(isNotSet(userName)){
-			RegisterServlet.userName = username;
-		}
-	}
-
-
-	private synchronized void setUserPassword(String userpassword) {
-		if (isNotSet(userPassword)) {
-			RegisterServlet.userPassword = userpassword;	
-		}
-	}
-
-	public static String getUserName() {
-		return RegisterServlet.userName;
-	}
-	public static String getUserPassword() {
-		return RegisterServlet.userPassword;
 	}
 
 }
