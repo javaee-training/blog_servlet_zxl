@@ -1,14 +1,13 @@
 package com.doufuding.java.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class BlogInfo {
 	
 	private Integer id;
 	private Date createTime;
 	private Date updateTime;
-	private List<TagInfo> tags;
+	private String tags;
 	private String title;
 	private String content;
 	private Integer createUserId;
@@ -74,11 +73,11 @@ public class BlogInfo {
 		this.createUserInfo = createUserInfo;
 	}
 	
-	public List<TagInfo> getTags() {
+	public String getTags() {
 		return tags;
 	}
 	
-	public void setTagId(List<TagInfo> tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
 	

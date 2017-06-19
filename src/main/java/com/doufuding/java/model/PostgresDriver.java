@@ -2,6 +2,9 @@ package com.doufuding.java.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class PostgresDriver {
 	private String url = "jdbc:postgresql://localhost:5432/db_blog";
@@ -26,6 +29,14 @@ public class PostgresDriver {
 		}
 		//System.out.println("数据库链接成功。");
 		return connection;
+	}
+	
+	public String getTagName(int tagId) throws SQLException {
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+		String sql = "select tag_name from bg_tag where tag_id='"+tagId+"'";
+		ResultSet rSet = statement.executeQuery(sql);
+		return rSet.getString("tag_name");
 	}
 	
 }

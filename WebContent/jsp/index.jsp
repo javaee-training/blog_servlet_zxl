@@ -28,25 +28,6 @@
 <title>首页</title>
 </head>
 <body>
-	<script type="text/javascript">
-		var url = "/searchRegister";
-		var isRegister;
-		var request = $.ajax({
-			url: 'searchRegisterServlet',
-			method: 'POST',
-			dataType: 'json',
-			data : {
-				name : "查询"
-			},
-			contentType : "application/json;charset=UTF-8",
-		}).done(function(data, textStatus, jqXHR) {
-			isRegister = data.isRegister;
-		}).fail(function(jqXHR, textStatus, errorThrown) {
-			isRegister = null;
-		}).always(function() {
-
-		})
-	</script>
 	<%
 		String path = request.getContextPath() + "/jsp";
 	%>
@@ -55,7 +36,6 @@
 		<div class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-
 					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<!-- 布局在导航栏右侧 -->
