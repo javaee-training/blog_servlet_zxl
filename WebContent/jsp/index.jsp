@@ -46,10 +46,7 @@
 							<li><a href="">注销</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="<%=path%>/user/register.jsp"><c:choose>
-										<c:when test="${isRegister != null}"></c:when>
-										<c:otherwise>注册</c:otherwise>
-									</c:choose></a></li>
+							<li><a href="<%=path%>/user/register.jsp">注册 </a></li>
 							<li><a href="<%=path%>/user/login.jsp">登录</a></li>
 						</c:otherwise>
 					</c:choose>

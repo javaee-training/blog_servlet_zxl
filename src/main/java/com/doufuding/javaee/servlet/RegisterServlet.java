@@ -80,11 +80,11 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		if (row == 0) {
-			session.setAttribute("userCheckResultRegister", "未知原因导致注册失败。可能该用户已注册。");
+			session.setAttribute("userCheckResultRegister", "未知原因导致注册失败。可能该用户已注册。<a href=\"../jsp/user/login.jsp\">登录</a>");
 			request.getRequestDispatcher("../user/register.jsp").forward(request, response);
 			return ;
 		}
-		session.setAttribute("isRegister", true);
+		//session.setAttribute("isRegister", true);
 		session.setAttribute("userInfo", userInfo);
 		request.getRequestDispatcher("../index.jsp").forward(request, response);
 		//response.sendRedirect("../index.jsp");
