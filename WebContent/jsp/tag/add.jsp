@@ -40,7 +40,7 @@
 						<c:when test="${userInfo != null}">
 							<li><a href="<%=path%>/user/user_detail.jsp"
 								class="fa fa-user-o">${userInfo.loginName}</a></li>
-							<li><a href="" class="fa fa-sign-out">注销</a></li>
+							<li><a href="<%=path%>/user/logout" class="fa fa-sign-out">注销</a></li>
 						</c:when>
 						<c:otherwise>
 							<li><a href="<%=path%>/user/login.jsp">登录</a></li>

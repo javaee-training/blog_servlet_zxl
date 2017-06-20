@@ -23,6 +23,9 @@
 <title>编辑</title>
 </head>
 <body>
+	<%
+		String path = request.getContextPath() + "/jsp";
+	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
 		<nav class="navbar navbar-default" role="navigation">
@@ -30,10 +33,11 @@
 				<a class="navbar-brand" href="index.jsp">张三的博客</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="./blog/view.jsp" class="fa fa-plus">文章</a></li>
-				<li><a href="./tag/add.jsp" class="fa fa-plus">标签</a></li>
-				<li><a href="" class="fa fa-user-o">张三</a></li>
-				<li><a href="" class="fa fa-sign-out">退出</a></li>
+				<li><a href="<%=path%>/blog/view.jsp" class="fa fa-plus">文章</a></li>
+				<li><a href="<%=path%>/tag/add.jsp" class="fa fa-plus">标签</a></li>
+				<li><a href="<%=path%>/user/user_detail.jsp"
+					class="fa fa-user-o">张三</a></li>
+				<li><a href="<%=path%>/user/logout" class="fa fa-sign-out">退出</a></li>
 			</ul>
 		</nav>
 		<div class="row-fluid">
