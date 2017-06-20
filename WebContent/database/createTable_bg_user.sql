@@ -7,7 +7,7 @@ CREATE TABLE public.bg_user
     user_id integer NOT NULL DEFAULT nextval('bg_user_user_id_seq'::regclass),
     user_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
     user_password text COLLATE pg_catalog."default" NOT NULL,
-    create_user_id integer NOT NULL,
+    create_user_id integer,
     create_time time with time zone NOT NULL DEFAULT now(),
     update_user_id integer,
     update_time time with time zone NOT NULL DEFAULT now(),
