@@ -23,24 +23,27 @@
 <title>添加标签</title>
 </head>
 <body>
+	<%
+		String path = request.getContextPath() + "/jsp";
+	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
-		<c:set var="username" value="${returnusername}"></c:set>
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.jsp">张三的博客</a>
+					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="./blog/view.jsp" class="fa fa-plus">文章</a></li>
 					<li><a href="./tag/add.jsp" class="fa fa-plus">标签</a></li>
 					<c:choose>
-						<c:when test="${username != null}">
-							<li><a href="./user/user_detail.jsp" class="fa fa-user-o">${username}</a></li>
+						<c:when test="${userInfo != null}">
+							<li><a href="<%=path%>/user/user_detail.jsp"
+								class="fa fa-user-o">${userInfo.loginName}</a></li>
 							<li><a href="" class="fa fa-sign-out">注销</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="./user/login.jsp">登录</a></li>
+							<li><a href="<%=path%>/user/login.jsp">登录</a></li>
 						</c:otherwise>
 					</c:choose>
 					<!-- 
@@ -52,17 +55,26 @@
 		</nav>
 		<div class="row-fluid">
 			<div class="center-block">
+				<!-- 信息提示框，警告框 -->
+				<c:choose>
+					<c:when test="${userCheckResultTag == null}"></c:when>
+					<c:otherwise>
+						<div id="isEmpty" class="alert alert-danger" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultTag}</i>
+						</div>
+					</c:otherwise>
+				</c:choose>
 				<!-- 表单 -->
-				<form action="tag_add" method="post" class="form-signin">
+				<form action="tagadd" method="post" class="form-signin">
 					<div class="panel panel-default">
 						<div class="panel-heading">录入标签</div>
 						<div class="panel-body">
 							<div class="form-group">
 								<label for="tags">标签</label> <input type="text" id="tags"
-									class="form-control">
+									name="tags" class="form-control">
 							</div>
 							<div class="form-group" style="float: right;">
-								<button type="button" class="btn btn-default">保存</button>
+								<button type="submit" class="btn btn-default">保存</button>
 							</div>
 						</div>
 					</div>

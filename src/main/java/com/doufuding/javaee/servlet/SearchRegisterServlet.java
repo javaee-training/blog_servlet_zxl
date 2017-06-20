@@ -1,16 +1,11 @@
 package com.doufuding.javaee.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Servlet implementation class SearchRegisterServlet
@@ -44,27 +39,25 @@ public class SearchRegisterServlet extends HttpServlet {
 	}
 
 	public void returnJsonData(HttpServletResponse response) throws IOException {
-		boolean isRegister = false;
-		String userName = RegisterServlet.userName;
-		String userPassword = RegisterServlet.userPassword;
-		if (userName.isEmpty() && userPassword.isEmpty()) {
-			isRegister = false;
-		} else {
-			isRegister = true;
-		}
-		JSONObject user = new JSONObject();
-		try {
-			user.put("isRegister", isRegister);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("JSON格式错误。");
-		}
-		System.out.println(isRegister);
-		System.out.println(userName);
-		PrintWriter out = response.getWriter();
-		out.print(user.toString());
-		out.close();
+//		boolean isRegister = false;
+//		String userName = RegisterServlet.userName;
+//		String userPassword = RegisterServlet.userPassword;
+//		if (userName.isEmpty() && userPassword.isEmpty()) {
+//			isRegister = false;
+//		} else {
+//			isRegister = true;
+//		}
+//		JSONObject user = new JSONObject();
+//		try {
+//			user.put("isRegister", isRegister);
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			//e.printStackTrace();
+//			System.out.println("JSON格式错误。");
+//		}
+//		PrintWriter out = response.getWriter();
+//		out.print(user.toString());
+//		out.close();
 	}
 
 }
