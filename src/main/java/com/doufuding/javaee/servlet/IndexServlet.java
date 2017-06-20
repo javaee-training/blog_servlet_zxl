@@ -6,21 +6,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//此servlet已不再使用
+import javax.servlet.http.HttpSession;
+//此servlet已不再使用。
 /**
- * Servlet implementation class SearchRegisterServlet
+ * Servlet implementation class IndexServlet
  */
-@WebServlet(name="searchRegisterServlet", urlPatterns="/jsp/searchRegisterServlet")
-public class SearchRegisterServlet extends HttpServlet {
+@WebServlet(name="indexServlet", urlPatterns="/jsp/indexServlet")
+public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public SearchRegisterServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public IndexServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,11 +36,9 @@ public class SearchRegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		returnJsonData(response);
-	}
-
-	public void returnJsonData(HttpServletResponse response) throws IOException {
-//		boolean isRegister = false;
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		boolean isRegister = false;
 //		String userName = RegisterServlet.userName;
 //		String userPassword = RegisterServlet.userPassword;
 //		if (userName.isEmpty() && userPassword.isEmpty()) {
@@ -47,17 +46,9 @@ public class SearchRegisterServlet extends HttpServlet {
 //		} else {
 //			isRegister = true;
 //		}
-//		JSONObject user = new JSONObject();
-//		try {
-//			user.put("isRegister", isRegister);
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			//e.printStackTrace();
-//			System.out.println("JSON格式错误。");
-//		}
-//		PrintWriter out = response.getWriter();
-//		out.print(user.toString());
-//		out.close();
+		HttpSession session = request.getSession();
+		session.setAttribute("isRegister", isRegister);
+		request.getRequestDispatcher("../jsp/index.jsp").forward(request, response);
 	}
 
 }
