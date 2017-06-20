@@ -44,10 +44,10 @@
 		</nav>
 		<div class="row-fluid center-block" style="max-width: 400px;">
 			<c:choose>
-				<c:when test="${userCheckResult == null}"></c:when>
+				<c:when test="${userCheckResultLogin == null}"></c:when>
 				<c:otherwise>
 					<div id="isEmpty" class="alert alert-danger" role="alert">
-						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResult}</i>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultLogin}</i>
 					</div>
 				</c:otherwise>
 			</c:choose>

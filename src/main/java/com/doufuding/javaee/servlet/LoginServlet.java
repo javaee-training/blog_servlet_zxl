@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		if (userId == 0) {
 //			System.out.println("查询失败。");
-			session.setAttribute("userCheckResult", "登录失败。请检查用户名和密码。");
+			session.setAttribute("userCheckResultLogin", "登录失败。请检查用户名和密码。");
 			request.getRequestDispatcher("../user/login.jsp").forward(request, response);
 			return ;
 		}

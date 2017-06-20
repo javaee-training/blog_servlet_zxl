@@ -43,10 +43,10 @@
 		<div class="row-fluid center-block" style="max-width: 400px;">
 			<!-- 警告框 -->
 			<c:choose>
-				<c:when test="${userCheckResult == null}"></c:when>
+				<c:when test="${userCheckResultRegister == null}"></c:when>
 				<c:otherwise>
 					<div id="isEmpty" class="alert alert-danger" role="alert">
-						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResult}</i>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultRegister}</i>
 					</div>
 				</c:otherwise>
 			</c:choose>
