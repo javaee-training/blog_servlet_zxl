@@ -9,7 +9,7 @@ CREATE TABLE public.bg_user
     user_password text COLLATE pg_catalog."default" NOT NULL,
     create_user_id integer NOT NULL,
     create_time time with time zone NOT NULL DEFAULT now(),
-    update_user_id integer NOT NULL,
+    update_user_id integer,
     update_time time with time zone NOT NULL DEFAULT now(),
     CONSTRAINT "PK_user_id" PRIMARY KEY (user_id),
     CONSTRAINT "UN_user_name" UNIQUE (user_name)

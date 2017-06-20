@@ -10,7 +10,7 @@ CREATE TABLE public.bg_article
     tag_id integer NOT NULL,
     create_user_id integer NOT NULL,
     create_time time with time zone NOT NULL DEFAULT now(),
-    update_user_id integer NOT NULL,
+    update_user_id integer,
     update_time time with time zone NOT NULL DEFAULT now(),
     CONSTRAINT "PK_article_id" PRIMARY KEY (article_id),
     CONSTRAINT "UN_createUserId_articleTitle" UNIQUE (create_user_id, article_title),

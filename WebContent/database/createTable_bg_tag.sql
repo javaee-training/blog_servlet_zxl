@@ -8,7 +8,7 @@ CREATE TABLE public.bg_tag
     tag_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
     create_user_id integer NOT NULL,
     create_time time with time zone NOT NULL DEFAULT now(),
-    update_user_id integer NOT NULL,
+    update_user_id integer,
     update_time time with time zone NOT NULL DEFAULT now(),
     CONSTRAINT "PK_tag_id" PRIMARY KEY (tag_id),
     CONSTRAINT "UN_tag_name" UNIQUE (tag_name),
