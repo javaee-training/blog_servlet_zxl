@@ -26,19 +26,11 @@
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
+					<a class="navbar-brand" href="<%=path%>/index.jsp">个人博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<c:choose>
-						<c:when test="${userInfo == null}">
-							<li><a href="<%=path%>/user/register.jsp">注册</a></li>
-							<li><a href="<%=path%>/user/login.jsp">登录</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="#">${userInfo.loginName}</a></li>
-							<li><a href="#">退出</a></li>
-						</c:otherwise>
-					</c:choose>
+					<li><a href="<%=path%>/user/register.jsp">注册</a></li>
+					<li><a href="<%=path%>/user/login.jsp">登录</a></li>
 				</ul>
 			</div>
 		</nav>
