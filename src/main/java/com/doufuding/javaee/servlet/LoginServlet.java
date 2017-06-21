@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.doufuding.java.model.BlogInfo;
 import com.doufuding.java.model.PageInfo;
-import com.doufuding.java.model.TagInfo;
 import com.doufuding.java.model.UserInfo;
 import com.doufuding.java.util.Md5Util;
 import com.doufuding.java.util.PostgresDriver;
@@ -95,93 +90,17 @@ public class LoginServlet extends HttpServlet {
 		}
 		userInfo.setId(userId);
 
-		//用户名密码验证成功后从bg_blog表中读数据，此处与RegisterServlet跳转到index.jsp相同，建议写到一起。
-		sql = "select * from bg_article";//登录用户可以查看所有文章。
-		ResultSet resultSet2 = null;
-		try {
-			resultSet2 = statement.executeQuery(sql);
-			//System.out.println(resultSet2);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		//将从bg_blog表中查询到的数据放在集合类List<BlogInfo>中，传回index.jsp
-		List<BlogInfo> blogInfos = new ArrayList<>();
-		int count = 0;
-		try {
-			if (resultSet2 != null) {
-				while (resultSet2.next()) {
-					BlogInfo blogInfo = new BlogInfo();
-					blogInfo.setId(resultSet2.getInt("article_id"));
-					blogInfo.setTitle(resultSet2.getString("article_title"));
-					blogInfo.setContent(resultSet2.getString("article_content"));
-					blogInfo.setCreateTime(resultSet2.getTimestamp("create_time"));
-					blogInfo.setCreateUserName(postgresDriver.getUserName(resultSet2.getInt("create_user_id")));
-					blogInfo.setTags(postgresDriver.getTagName(resultSet2.getInt("tag_id")));
-					blogInfo.setUpdateTime(resultSet2.getTimestamp("update_time"));
-					count++;
-					blogInfos.add(blogInfo);
-				}
-			} else {
-				blogInfos = null;
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		//计算文章总数
 		PageInfo pageInfo = new PageInfo();
-		pageInfo.setRows(count);
+		pageInfo.setRows(postgresDriver.getCount(PostgresDriver.COUNT_ARTICLE));
 		pageInfo.setRowsPerPage(3);
 		
 
-		session.setAttribute("blogs", blogInfos);
+		session.setAttribute("blogs", postgresDriver.getBlogInfos());
 		session.setAttribute("userInfo", userInfo);
-		session.setAttribute("tags", geTagInfos());
+		session.setAttribute("tags", postgresDriver.geTagInfos());
 		session.setAttribute("pageInfo", pageInfo);
 		request.getRequestDispatcher("../index.jsp").forward(request, response);
-	}
-	
-	/*
-	 * 将bg_tag表中的标签取出来等待使用
-	 * 
-	 */
-	private List<TagInfo> geTagInfos() {
-		PostgresDriver postgresDriver = new PostgresDriver();
-		String sql = "select tag_id, tag_name from bg_tag";
-		Statement statement = null;
-		try {
-			statement = postgresDriver.getConnection().createStatement();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		ResultSet tag = null;
-		try {
-			tag = statement.executeQuery(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<TagInfo> tags = new ArrayList<>();
-		try {
-			if (tag != null) {
-				while (tag.next()) {
-					int tagId = tag.getInt("tag_id");
-					String tagName = tag.getString("tag_name");
-					tags.add(new TagInfo(tagId, tagName));
-				}
-			} else {
-				tags = null;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return tags;
 	}
 
 }
