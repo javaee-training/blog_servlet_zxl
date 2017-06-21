@@ -5,9 +5,9 @@ public class PageInfo {
 	public PageInfo(Integer page) {
 		// TODO Auto-generated constructor stub
 	}
-	private int pageNum = 1;
-	private long rows;
-	private int rowsPerPage = 10;
+	private int pageNum = 1;//第几页。
+	private long rows;//实际记录数
+	private int rowsPerPage = 10;//每页记录最大数
 	
 	public PageInfo(int pageNum) {
 		if (pageNum < 1) {
@@ -16,6 +16,10 @@ public class PageInfo {
 		this.pageNum = pageNum;
 	}
 	
+	public PageInfo() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getRowsPerPage() {
 		return rowsPerPage;
 	}

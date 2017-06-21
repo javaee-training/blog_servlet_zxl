@@ -1,11 +1,11 @@
 package com.doufuding.javaee.servlet;
-//此servlet已不再使用
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,23 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.doufuding.java.model.BlogInfo;
-import com.doufuding.java.model.Md5Util;
-import com.doufuding.java.model.PageInfo;
 import com.doufuding.java.model.PostgresDriver;
 import com.doufuding.java.model.TagInfo;
 import com.doufuding.java.model.UserInfo;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class BlogAddServlet
  */
-@WebServlet(name="login", urlPatterns="/jsp/user/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name="blogAdd", urlPatterns="/jsp/blog/blogAdd")
+public class BlogAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginServlet() {
+	public BlogAddServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,6 +39,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		doPost(request, response);
 	}
@@ -49,78 +48,111 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doGet(request, response); 
-		response.setContentType("text/html;charset=UTF-8");
-		String username = request.getParameter("username").trim();
-		String password = request.getParameter("password").trim();
-		HttpSession session = request.getSession();
-		UserInfo userInfo = new UserInfo();
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		response.setContentType("text/html; charset=UTF-8");
 
-		userInfo.setLoginName(username);
-		userInfo.setPassword("");//不存储用户密码
-		userInfo.setCreateTime(new Date());
+		HttpSession session = request.getSession(false);
+
+		if (session == null) {//此处应修改为使用权限过滤器。
+			session = request.getSession();
+			session.setAttribute("userCheckResultBlogAdd", "用户未登录。请<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
+			return ;
+		}
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		if (userInfo == null) {
+			session.setAttribute("userCheckResultBlogAdd", "登录已超时。请重新<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
+			return ;
+		}
+
+		String title = request.getParameter("title").trim();
+		String tag = request.getParameter("tagSelect").trim();
+		String content = request.getParameter("content").trim();
+		List<TagInfo> tagInfos = geTagInfos();
+
+		if (title.isEmpty() || tag.isEmpty() || content.isEmpty()) {
+			session.setAttribute("tagInfos", tagInfos);
+			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
+			return ;
+		}
+		int tagId = 0;
+		for(Iterator<TagInfo> tagIterator = tagInfos.iterator();tagIterator.hasNext();) {
+			TagInfo tagInfo = (TagInfo) tagIterator.next();
+			if (tagInfo.getName().equals(tag)) {
+				tagId = tagInfo.getId();
+				break;
+			}
+		}
+		if (tagId == 0) {
+			System.out.println("发生异常错误。");
+			System.exit(0);
+		}
 
 		PostgresDriver postgresDriver = new PostgresDriver();
-		//此处没有防止sql注入问题。
-		String sql = "select user_id from bg_user where user_name='"+username+"' and user_password='"+Md5Util.getMd5(password)+"'";
+		String sql = "insert into bg_article(article_title, article_content, tag_id, create_user_id) values('"+title+"','"+content+"','"+tagId+"','"+userInfo.getId()+"')";
 		Statement statement = null;
 		try {
 			statement = postgresDriver.getConnection().createStatement();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		ResultSet resultSet = null;
-		try {
-			resultSet = statement.executeQuery(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int userId = 0;
-		//System.out.println(resultSet);
+		int row = 0;
 		try {
-			if (resultSet.next()) {
-				userId = resultSet.getInt("user_id");
-			}
+			row = statement.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (userId == 0) {
-			//			System.out.println("查询失败。");
-			session.setAttribute("userCheckResultLogin", "登录失败。请检查用户名和密码。");
-			request.getRequestDispatcher("../user/login.jsp").forward(request, response);
+		if (row == 0) {
+			session.setAttribute("userCheckResultBlogAdd", "数据库异常。文章添加失败。");
+			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
 			return ;
 		}
-		userInfo.setId(userId);
+		List<BlogInfo> blogInfos = getBlogInfos();
 
-		//用户名密码验证成功后从bg_blog表中读数据，此处与RegisterServlet跳转到index.jsp相同，建议写到一起。
-		sql = "select * from bg_article";//登录用户可以查看所有文章。
+		session.setAttribute("userInfo", userInfo);
+		session.setAttribute("blogs", blogInfos);
+		request.getRequestDispatcher("../index.jsp").forward(request, response);
+
+	}
+
+	/*
+	 * 获得bg_article表中的数据传回index.jsp
+	 * 此方法需在后期单独做成一个工具类，以减少不同页面返回index.jsp造成的冗余。
+	 * 
+	 */
+	private List<BlogInfo> getBlogInfos() {
+		PostgresDriver postgresDriver = new PostgresDriver();
+		String sql = "select * from bg_article";
+		Statement statement = null;
+		try {
+			statement = postgresDriver.getConnection().createStatement();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		ResultSet resultSet2 = null;
 		try {
 			resultSet2 = statement.executeQuery(sql);
-			//System.out.println(resultSet2);
-		} catch (SQLException e) {
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
-
-		//将从bg_blog表中查询到的数据放在集合类List<BlogInfo>中，传回index.jsp
 		List<BlogInfo> blogInfos = new ArrayList<>();
-		int count = 0;
 		try {
 			if (resultSet2 != null) {
 				while (resultSet2.next()) {
 					BlogInfo blogInfo = new BlogInfo();
 					blogInfo.setId(resultSet2.getInt("article_id"));
-					blogInfo.setTitle(resultSet2.getString("article_title"));
+					blogInfo.setTitle(resultSet2.getString("article_id"));
 					blogInfo.setContent(resultSet2.getString("article_content"));
 					blogInfo.setCreateTime(resultSet2.getTimestamp("create_time"));
 					blogInfo.setCreateUserName(postgresDriver.getUserName(resultSet2.getInt("create_user_id")));
 					blogInfo.setTags(postgresDriver.getTagName(resultSet2.getInt("tag_id")));
 					blogInfo.setUpdateTime(resultSet2.getTimestamp("update_time"));
-					count++;
 					blogInfos.add(blogInfo);
 				}
 			} else {
@@ -131,19 +163,10 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		PageInfo pageInfo = new PageInfo();
-		pageInfo.setRows(count);
-		pageInfo.setRowsPerPage(3);
-		
-
-		session.setAttribute("blogs", blogInfos);
-		session.setAttribute("userInfo", userInfo);
-		session.setAttribute("tags", geTagInfos());
-		session.setAttribute("pageInfo", pageInfo);
-		request.getRequestDispatcher("../index.jsp").forward(request, response);
+		return blogInfos;
 	}
-	
+
+
 	/*
 	 * 将bg_tag表中的标签取出来等待使用
 	 * 

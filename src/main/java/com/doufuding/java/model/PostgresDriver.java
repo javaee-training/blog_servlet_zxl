@@ -31,12 +31,28 @@ public class PostgresDriver {
 		return connection;
 	}
 	
+	public String getUserName(int userId) throws SQLException {
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+		String sql = "select user_name from bg_user where user_id='"+userId+"'";
+		ResultSet resultSet = statement.executeQuery(sql);
+		String userName = null;
+		if (resultSet.next()) {
+			userName = resultSet.getString("user_name");
+		}
+		return userName;
+	}
+	
 	public String getTagName(int tagId) throws SQLException {
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();
 		String sql = "select tag_name from bg_tag where tag_id='"+tagId+"'";
 		ResultSet rSet = statement.executeQuery(sql);
-		return rSet.getString("tag_name");
+		String tagName = null;
+		if (rSet.next()) {
+			tagName = rSet.getString("tag_name");
+		}
+		return tagName;
 	}
 	
 }

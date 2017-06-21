@@ -70,12 +70,12 @@
 											<a href="<%=path%>/blog/view.jsp">${blogInfo.title}</a>
 										</h2>
 										<div>
-											<c:forEach items="blogInfo.tags" var="tagInfo">
-												<span class="label label-default"><i
-													class="fa fa-tags" aria-hidden="true"></i>${tagInfo.name}</span>
-											</c:forEach>
+											<span class="label label-default"><i
+												class="fa fa-tags" aria-hidden="true"></i>${blogInfo.tags}</span>
 										</div>
-										<div class="markdown-body"></div>
+										<div class="markdown-body">
+										    <span class="text-large"><i>${blogInfo.content}</i></span>
+										</div>
 										<div class="text-small text-gray">
 											<span>${blogInfo.createUserName}</span>
 											<time class="ml-2">

@@ -10,7 +10,7 @@ public class BlogInfo {
 	private String tags;
 	private String title;
 	private String content;
-	private Integer createUserId;
+	private String createUserName;
 	private UserInfo createUserInfo;
 	
 	public BlogInfo() {
@@ -41,12 +41,12 @@ public class BlogInfo {
 		this.content = content;
 	}
 	
-	public Integer getCreateUserId() {
-		return createUserId;
+	public String getCreateUserName() {
+		return createUserName;
 	}
 	
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
 	}
 	
 	public Date getCreateTime() {

@@ -36,24 +36,35 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="<%=path%>/blog/view.jsp" class="fa fa-plus">文章</a></li>
 					<li><a href="<%=path%>/tag/add.jsp" class="fa fa-plus">标签</a></li>
-					<li><a href="<%=path%>/user/user_detail.jsp" class="fa fa-user-o">${userInfo.loginName}</a></li>
+					<li><a href="<%=path%>/user/user_detail.jsp"
+						class="fa fa-user-o">${userInfo.loginName}</a></li>
 					<li><a href="<%=path%>/user/logout" class="fa fa-sign-out">退出</a></li>
 				</ul>
 			</div>
 		</nav>
 		<div class="row-fluid">
 			<div class="center-block">
+				<!-- 警告提示框 -->
+				<c:choose>
+					<c:when test="${userCheckResultBlogAdd == null}"></c:when>
+					<c:otherwise>
+						<div id="isEmpty" class="alert alert-danger" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultBlogAdd}</i>
+						</div>
+					</c:otherwise>
+				</c:choose>
 				<!-- 表单 -->
-				<form action="blog_add" method="post" class="form-signin">
+				<form action="blogAdd" method="post" class="form-signin">
 					<div class="panel panel-default">
 						<div class="panel-heading">录入文章</div>
 						<div class="panel-body">
 							<div class="form-group">
 								<label for="title">标题</label> <input type="text" id="title"
-									class="form-control">
+									name="title" class="form-control">
 							</div>
 							<div class="form-group">
-								<label for="tag">标签</label> <select class="form-control">
+								<label for="tag">标签</label> <select name="tagSelect"
+									class="form-control">
 									<option value="诗词歌赋">诗词歌赋</option>
 									<option value="技术笔记">技术笔记</option>
 								</select>
@@ -64,10 +75,10 @@
 									<li class="active"><a href="#">编辑</a></li>
 									<li><a href="#">预览</a></li>
 								</ul>
-								<textarea rows="5" class="form-control"></textarea>
+								<textarea rows="5" name="content" class="form-control"></textarea>
 							</div>
 							<div class="form-group" style="float: right;">
-								<button type="button" class="btn btn-default">保存</button>
+								<button type="submit" class="btn btn-default">保存</button>
 							</div>
 						</div>
 					</div>

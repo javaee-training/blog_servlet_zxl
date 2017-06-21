@@ -39,12 +39,12 @@ public class CheckNamePwdFilter implements Filter {
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
 		HttpServletRequest req = (HttpServletRequest) request;
-		String uri = req.getServletPath();
+		String uri = req.getServletPath()+".jsp";
 		
 		//校验输入是否为空
 		if (username.isEmpty() || password.isEmpty()) {
 			request.setAttribute("userCheckResult", " 用户名或密码为空!");
-			request.getRequestDispatcher(uri+".jsp").forward(request, response);
+			request.getRequestDispatcher(uri).forward(request, response);
 			return ;
 		}
 		
@@ -52,7 +52,7 @@ public class CheckNamePwdFilter implements Filter {
 		for(int i = 0; i < username.length(); i++) {
 			if (isNotLetter(username.charAt(i))) {
 				request.setAttribute("userCheckResult", " 用户名只能包含英文字符");
-				request.getRequestDispatcher(uri+".jsp").forward(request, response);
+				request.getRequestDispatcher(uri).forward(request, response);
 				return ;
 			}
 		}
@@ -60,7 +60,7 @@ public class CheckNamePwdFilter implements Filter {
 		//校验密码长度是否合法
 		if (password.length() < 3) {
 			request.setAttribute("userCheckResult", " 密码最少包含三个字符");
-			request.getRequestDispatcher(uri+".jsp").forward(request, response);
+			request.getRequestDispatcher(uri).forward(request, response);
 			return ;
 		}
 		
