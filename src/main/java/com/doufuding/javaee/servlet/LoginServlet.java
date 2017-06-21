@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.doufuding.java.model.BlogInfo;
-import com.doufuding.java.model.Md5Util;
 import com.doufuding.java.model.PageInfo;
-import com.doufuding.java.model.PostgresDriver;
 import com.doufuding.java.model.TagInfo;
 import com.doufuding.java.model.UserInfo;
+import com.doufuding.java.util.Md5Util;
+import com.doufuding.java.util.PostgresDriver;
 
 /**
  * Servlet implementation class LoginServlet

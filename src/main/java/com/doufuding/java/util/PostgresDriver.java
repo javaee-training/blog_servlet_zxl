@@ -1,4 +1,4 @@
-package com.doufuding.java.model;
+package com.doufuding.java.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
