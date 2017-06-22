@@ -48,7 +48,11 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		if (session != null) {//重新登录时，使原来的session失效
+			session.invalidate();
+		}
+		session = request.getSession();
 		UserInfo userInfo = new UserInfo();
 
 		userInfo.setLoginName(username);
