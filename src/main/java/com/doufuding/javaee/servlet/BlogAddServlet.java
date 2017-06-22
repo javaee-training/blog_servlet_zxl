@@ -3,7 +3,6 @@ package com.doufuding.javaee.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -71,14 +70,8 @@ public class BlogAddServlet extends HttpServlet {
 		PostgresDriver postgresDriver = new PostgresDriver();
 		
 		List<TagInfo> tagInfos = postgresDriver.geTagInfos();
-		int tagId = 0;
-		for(Iterator<TagInfo> tagIterator = tagInfos.iterator();tagIterator.hasNext();) {
-			TagInfo tagInfo = (TagInfo) tagIterator.next();
-			if (tagInfo.getName().equals(tag)) {
-				tagId = tagInfo.getId();
-				break;
-			}
-		}
+		int tagId = Integer.parseInt(tag);
+
 		if (tagId == 0) {
 			System.out.println("发生异常错误。");
 			System.exit(0);

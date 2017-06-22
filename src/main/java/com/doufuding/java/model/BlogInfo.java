@@ -11,6 +11,7 @@ public class BlogInfo {
 	private String title;
 	private String content;
 	private String createUserName;
+	private String updateUserName;
 	private UserInfo createUserInfo;
 	
 	public BlogInfo() {
@@ -47,6 +48,14 @@ public class BlogInfo {
 	
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
+	}
+	
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+	
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
 	}
 	
 	public Date getCreateTime() {

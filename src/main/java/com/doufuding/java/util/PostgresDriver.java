@@ -140,10 +140,11 @@ public class PostgresDriver {
 				while (resultSet2.next()) {
 					BlogInfo blogInfo = new BlogInfo();
 					blogInfo.setId(resultSet2.getInt("article_id"));
-					blogInfo.setTitle(resultSet2.getString("article_id"));
+					blogInfo.setTitle(resultSet2.getString("article_title"));
 					blogInfo.setContent(resultSet2.getString("article_content"));
 					blogInfo.setCreateTime(resultSet2.getTimestamp("create_time"));
 					blogInfo.setCreateUserName(postgresDriver.getUserName(resultSet2.getInt("create_user_id")));
+					blogInfo.setUpdateUserName(postgresDriver.getUserName(resultSet2.getInt("update_user_id")));
 					blogInfo.setTags(postgresDriver.getTagName(resultSet2.getInt("tag_id")));
 					blogInfo.setUpdateTime(resultSet2.getTimestamp("update_time"));
 					blogInfos.add(blogInfo);
@@ -157,6 +158,47 @@ public class PostgresDriver {
 			e.printStackTrace();
 		}
 		return blogInfos;
+	}
+	
+	/*
+	 * 根据传入的article_id获得这条元组
+	 * 
+	 */
+	public BlogInfo getBlogInfo(int article_id) {
+		PostgresDriver postgresDriver = new PostgresDriver();
+		String sql = "select * from bg_article where article_id='"+article_id+"'";
+		Statement statement = null;
+		try {
+			statement = postgresDriver.getConnection().createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ResultSet resultSet2 = null;
+		try {
+			resultSet2 = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BlogInfo blogInfo = null;
+		try {
+			if (resultSet2.next()) {
+				blogInfo = new BlogInfo();
+				blogInfo.setId(resultSet2.getInt("article_id"));
+				blogInfo.setTitle(resultSet2.getString("article_title"));
+				blogInfo.setContent(resultSet2.getString("article_content"));
+				blogInfo.setCreateTime(resultSet2.getTimestamp("create_time"));
+				blogInfo.setCreateUserName(postgresDriver.getUserName(resultSet2.getInt("create_user_id")));
+				blogInfo.setUpdateUserName(postgresDriver.getUserName(resultSet2.getInt("update_user_id")));
+				blogInfo.setTags(postgresDriver.getTagName(resultSet2.getInt("tag_id")));
+				blogInfo.setUpdateTime(resultSet2.getTimestamp("update_time"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return blogInfo;
 	}
 
 	/*
@@ -188,13 +230,25 @@ public class PostgresDriver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int rows = 0;
+		ResultSet resultSet = null;
 		try {
-			rows = statement.executeUpdate(sql);
+			resultSet = statement.executeQuery(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		int rows = 0;
+		
+		try {
+			if (resultSet.next()) {
+				rows = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return rows;
 	}
 }

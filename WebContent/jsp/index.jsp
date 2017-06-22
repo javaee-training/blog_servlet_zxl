@@ -82,8 +82,8 @@
 												<fmt:formatDate value="${blogInfo.createTime}"
 													pattern="yyyy-MM-dd HH:mm" type="date"></fmt:formatDate>
 											</time>
-											<a class="ml-2" href="<%=path%>/blog/view.jsp">查看更多</a> <a
-												class="ml-2" href="<%=path%>/blog/edit.jsp">编辑</a>
+											<a class="ml-2" href="${pageContext.request.contextPath}/blogView?id=${blogInfo.id}">查看更多</a> <a
+												class="ml-2" href="${pageContext.request.contextPath}/blogEdit?id=${blogInfo.id}">编辑</a>
 										</div>
 									</li>
 								</c:forEach>

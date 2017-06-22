@@ -65,8 +65,9 @@
 							<div class="form-group">
 								<label for="tag">标签</label> <select name="tagSelect"
 									class="form-control">
-									<option value="诗词歌赋">诗词歌赋</option>
-									<option value="技术笔记">技术笔记</option>
+									<c:forEach items="${tagInfos}" var="tagInfo">
+										<option value="${tagInfo.id}">${tagInfo.name}</option>
+									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
