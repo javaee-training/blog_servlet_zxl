@@ -34,22 +34,14 @@
 					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./blog/view.jsp" class="fa fa-plus">文章</a></li>
-					<li><a href="./tag/add.jsp" class="fa fa-plus">标签</a></li>
 					<c:choose>
 						<c:when test="${userInfo != null}">
 							<li><a href="<%=path%>/user/user_detail.jsp"
 								class="fa fa-user-o">${userInfo.loginName}</a></li>
 							<li><a href="<%=path%>/user/logout" class="fa fa-sign-out">注销</a></li>
 						</c:when>
-						<c:otherwise>
-							<li><a href="<%=path%>/user/login.jsp">登录</a></li>
-						</c:otherwise>
+						<c:otherwise></c:otherwise>
 					</c:choose>
-					<!-- 
-                <li><a href="" class="fa fa-user-o">张三</a></li>
-                <li><a href="" class="fa fa-sign-out">退出</a></li>
-                 -->
 				</ul>
 			</div>
 		</nav>
