@@ -61,7 +61,7 @@ public class TagAddServlet extends HttpServlet {
 			request.getRequestDispatcher("../tag/add.jsp").forward(request, response);
 			return ;
 		}
-		System.out.println(userInfo);
+		//System.out.println(userInfo);
 		if (tagName.isEmpty()) {//标签名为空
 			session.setAttribute("userCheckResultTag", "标签名不能为空。");
 			request.getRequestDispatcher("../tag/add.jsp").forward(request, response);
