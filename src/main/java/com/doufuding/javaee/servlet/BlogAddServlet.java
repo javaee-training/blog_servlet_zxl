@@ -49,14 +49,14 @@ public class BlogAddServlet extends HttpServlet {
 
 		if (session == null) {//此处应修改为使用权限过滤器。
 			session = request.getSession();
-			session.setAttribute("userCheckResultBlogAdd", "用户未登录。请<a href=\"../user/login.jsp\">登录</a>");
-			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
+			session.setAttribute("userCheckResultUnlogin", "用户未登录。请<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		if (userInfo == null) {
-			session.setAttribute("userCheckResultBlogAdd", "登录已超时。请重新<a href=\"../user/login.jsp\">登录</a>");
-			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
+			session.setAttribute("userCheckResultRelogin", "登录已超时。请重新<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
 

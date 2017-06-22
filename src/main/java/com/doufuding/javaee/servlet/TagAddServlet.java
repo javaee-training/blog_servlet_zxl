@@ -48,17 +48,16 @@ public class TagAddServlet extends HttpServlet {
 		String tagName = request.getParameter("tags").trim();
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			System.out.println("用户未登录。");
 			session = request.getSession(true);
-			session.setAttribute("userCheckResultTag", "用户未登录。");
-			request.getRequestDispatcher("../tag/add.jsp").forward(request, response);
+			session.setAttribute("userCheckResultUnlogin", "用户未登录。请重新<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
 		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
 		if (userInfo == null) {
 			session = request.getSession();
-			session.setAttribute("userCheckResultTag", "用户未登录或登录已过期。<a href=\"../user/login.jsp\">登录</a>");
-			request.getRequestDispatcher("../tag/add.jsp").forward(request, response);
+			session.setAttribute("userCheckResultRelogin", "登录已过期。请重新<a href=\"../user/login.jsp\">登录</a>");
+			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
 		//System.out.println(userInfo);

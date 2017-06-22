@@ -35,13 +35,13 @@ public class UserDetailServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			session = request.getSession();
-			session.setAttribute("userCheckResultUserDetail", "用户未登录。请<a href=\"../user/login.jsp\">登录</a>");
+			session.setAttribute("userCheckResultUnlogin", "用户未登录。请<a href=\"../user/login.jsp\">登录</a>");
 			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		if (userInfo == null) {
-			session.setAttribute("userCheckResultUserDetail", "登录已过期。请<a href=\"../user/login.jsp\">登录</a>");
+			session.setAttribute("userCheckResultRelogin", "登录已过期。请<a href=\"../user/login.jsp\">登录</a>");
 			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
