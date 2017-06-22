@@ -24,7 +24,7 @@
 </head>
 <body>
 	<%
-	    String path = request.getContextPath()+"/jsp";
+		String path = request.getContextPath() + "/jsp";
 	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
@@ -35,7 +35,22 @@
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="<%=path%>/blog/add.jsp" class="fa fa-plus">文章</a></li>
-					<li><a href="<%=path%>/tag/tagAdd" class="fa fa-plus">标签</a></li>
+					<li><div class="dropdown navbar-nav">
+							<button type="button" class="btn btn-default dropdown-toggle"
+								id="articleMenu" data-toggle="dropdown">
+								文章<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu"
+								aria-labelledby="articleMenu">
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="<%=path%>/blog/add.jsp">新增文章</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#">查看我的文章</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#">删除文章</a></li>
+							</ul>
+						</div></li>
+					<li><a href="<%=path%>/tag/add.jsp" class="fa fa-plus">标签</a></li>
 					<li><a href="<%=path%>/user/userDetail" class="fa fa-user-o">${userInfo.loginName}</a></li>
 					<li><a href="<%=path%>/user/logout" class="fa fa-sign-out">注销</a></li>
 				</ul>
