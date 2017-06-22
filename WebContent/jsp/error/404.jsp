@@ -28,31 +28,40 @@
 <title>页面未找到</title>
 </head>
 <body>
+	<%
+		String path = request.getContextPath() + "/jsp";
+	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
 		<div class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.jsp">张三的博客</a>
+					<a class="navbar-brand" href="index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<!-- 布局在导航栏右侧 -->
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
-					    <!-- 需要修改 -->
-						<c:when test="${username != null}">
-							<li><a href="./user/user_detail.jsp">${username}</a></li>
+						<c:when test="${userInfo != null}">
+							<li><a href="<%=path%>/user/user_detail.jsp">${userInfo.loginName}</a></li>
 							<li><a href="">注销</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="./user/register.jsp">注册</a></li>
+							<li><a href="<%=path%>/user/register.jsp">注册</a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
 			</div>
 		</div>
 		<!-- 正文区 -->
-		<div class="block-center">
-		    <h1>此页面不存在。</h1>
+		<div class="row-fluid center-block" style="max-width: 400px;">
+			<c:choose>
+			    <c:when test="${userCheckResultUserDetail == null}"></c:when>
+			    <c:otherwise>
+			        <div class="alert alert-danger" role="alert">
+			            <i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultUserDetail}</i>
+			        </div>
+			    </c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </body>
