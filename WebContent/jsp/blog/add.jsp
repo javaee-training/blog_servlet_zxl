@@ -1,3 +1,6 @@
+<%@page import="com.doufuding.java.util.PostgresDriver"%>
+<%@page import="java.util.List"%>
+<%@page import="com.doufuding.java.model.TagInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!-- JSTL 核心标签库 -->
@@ -25,6 +28,9 @@
 <body>
 	<%
 		String path = request.getContextPath() + "/jsp";
+	    PostgresDriver postgresDriver = new PostgresDriver();
+	    List<TagInfo> tagInfos = postgresDriver.geTagInfos();
+	    session.setAttribute("tagInfos", tagInfos);
 	%>
 	<div class="container-fluid">
 		<!-- 导航栏 -->
@@ -65,6 +71,7 @@
 							<div class="form-group">
 								<label for="tag">标签</label> <select name="tagSelect"
 									class="form-control">
+									<option value="0" selected="selected">请选择标签</option>
 									<c:forEach items="${tagInfos}" var="tagInfo">
 										<option value="${tagInfo.id}">${tagInfo.name}</option>
 									</c:forEach>

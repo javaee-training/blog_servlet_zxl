@@ -3,8 +3,6 @@ package com.doufuding.javaee.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.doufuding.java.model.TagInfo;
 import com.doufuding.java.model.UserInfo;
 import com.doufuding.java.util.PostgresDriver;
 
@@ -67,22 +64,16 @@ public class BlogAddServlet extends HttpServlet {
 		String tag = request.getParameter("tagSelect").trim();
 		String content = request.getParameter("content").trim();
 		
-		PostgresDriver postgresDriver = new PostgresDriver();
 		
-		List<TagInfo> tagInfos = postgresDriver.geTagInfos();
 		int tagId = Integer.parseInt(tag);
 
-		if (tagId == 0) {
-			System.out.println("发生异常错误。");
-			System.exit(0);
-		}
-
-		if (title.isEmpty() || tag.isEmpty() || content.isEmpty()) {
-			session.setAttribute("tagInfos", tagInfos);
+		if (title.isEmpty() || tagId == 0 || content.isEmpty()) {
+			session.setAttribute("userCheckResultBlogAdd", "各项均为必填字段。");
 			request.getRequestDispatcher("../blog/add.jsp").forward(request, response);
 			return ;
 		}
 		
+		PostgresDriver postgresDriver = new PostgresDriver();
 		String sql = "insert into bg_article(article_title, article_content, tag_id, create_user_id) values('"+title+"','"+content+"','"+tagId+"','"+userInfo.getId()+"')";
 		Statement statement = null;
 		try {
