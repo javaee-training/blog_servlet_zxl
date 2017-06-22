@@ -55,18 +55,20 @@
 		<!-- 正文区 -->
 		<div class="row-fluid center-block" style="max-width: 400px;">
 			<c:choose>
-			    <c:when test="${userCheckResultUnlogin == null}"></c:when>
-			    <c:otherwise>
-			        <div class="alert alert-danger" role="alert">
-			            <i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultUnlogin}</i>
-			        </div>
-			    </c:otherwise>
-			    <c:when test="${userCheckResultRelogin == null}"></c:when>
-			    <c:otherwise>
-			        <div class="alert alert-danger" role="alert">
-			            <i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultRelogin}</i>
-			        </div>
-			    </c:otherwise>
+				<c:when test="${userCheckResultUnlogin == null}"></c:when>
+				<c:otherwise>
+					<div class="alert alert-danger" role="alert">
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultUnlogin}</i>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${userCheckResultRelogin == null}"></c:when>
+				<c:otherwise>
+					<div class="alert alert-danger" role="alert">
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultRelogin}</i>
+					</div>
+				</c:otherwise>
 			</c:choose>
 		</div>
 	</div>

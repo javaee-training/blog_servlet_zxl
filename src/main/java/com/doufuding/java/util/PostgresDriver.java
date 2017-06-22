@@ -251,4 +251,34 @@ public class PostgresDriver {
 		
 		return rows;
 	}
+
+
+	public TagInfo getTagInfo(int tagId) {
+		PostgresDriver postgresDriver = new PostgresDriver();
+		String sql = "select * from bg_tag where tag_id='"+tagId+"'";
+		Statement statement = null;
+		try {
+			statement = postgresDriver.getConnection().createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ResultSet resultSet2 = null;
+		try {
+			resultSet2 = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TagInfo tagInfo = null;
+		try {
+			if (resultSet2.next()) {
+				tagInfo = new TagInfo(resultSet2.getInt("tag_id"), resultSet2.getString("tag_name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tagInfo;
+	}
 }

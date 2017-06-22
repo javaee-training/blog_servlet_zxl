@@ -14,7 +14,7 @@ import com.doufuding.java.util.PostgresDriver;
 /**
  * Servlet implementation class BlogEdit
  */
-@WebServlet(name="blogEdit", urlPatterns="/blogEdit")
+@WebServlet(name="blogEdit", urlPatterns="/jsp/blog/blogEdit")
 public class BlogEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

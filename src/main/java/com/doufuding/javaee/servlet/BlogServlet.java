@@ -19,7 +19,7 @@ import com.doufuding.java.model.UserInfo;
 /**
  * Servlet implementation class BlogServlet
  */
-@WebServlet("/blogs")
+@WebServlet(name="blogs", urlPatterns="/jsp/blog/blogs")
 public class BlogServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String SESSION_LOGIN_USER = "login_user";

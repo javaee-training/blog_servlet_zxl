@@ -12,16 +12,16 @@ import com.doufuding.java.model.UserInfo;
 import com.doufuding.java.util.PostgresDriver;
 
 /**
- * Servlet implementation class BlogViewServlet
+ * Servlet implementation class TagInfoServlet
  */
-@WebServlet(name="blogView", urlPatterns="/jsp/blog/blogView")
-public class BlogViewServlet extends HttpServlet {
+@WebServlet(name="tagInfo", urlPatterns="/jsp/tag/tagInfo")
+public class TagInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public BlogViewServlet() {
+	public TagInfoServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,18 +43,17 @@ public class BlogViewServlet extends HttpServlet {
 		}
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		if (userInfo == null) {
-			session.setAttribute("userCheckResultBlogRelogin", "登录已超时，请用户重新登录。请<a href=\"../user/login.jsp\">登录</a>");
+			session.setAttribute("userCheckResultRelogin", "登录已超时，请用户重新登录。请<a href=\"../user/login.jsp\">登录</a>");
 			request.getRequestDispatcher("../error/404.jsp").forward(request, response);
 			return ;
 		}
-
-		String blogId = request.getParameter("id").trim();
+		
+		String tagId = request.getParameter("tagId").trim();
 		PostgresDriver postgresDriver = new PostgresDriver();
-		session.setAttribute("blogInfo", postgresDriver.getBlogInfo(Integer.parseInt(blogId)));
+		session.setAttribute("tagInfo", postgresDriver.getTagInfo(Integer.parseInt(tagId)));
 		session.setAttribute("userInfo", userInfo);
-		System.out.println(request.getContentType());
-		System.out.println(blogId);
-		request.getRequestDispatcher("../blog/view.jsp").forward(request, response);
+		request.getRequestDispatcher("../tag/tag_info.jsp").forward(request, response);
+		
 	}
 
 	/**

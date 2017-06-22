@@ -82,8 +82,8 @@
 												<fmt:formatDate value="${blogInfo.createTime}"
 													pattern="yyyy-MM-dd HH:mm" type="date"></fmt:formatDate>
 											</time>
-											<a class="ml-2" href="${pageContext.request.contextPath}/blogView?id=${blogInfo.id}">查看更多</a> <a
-												class="ml-2" href="${pageContext.request.contextPath}/blogEdit?id=${blogInfo.id}">编辑</a>
+											<a class="ml-2" href="<%=path%>/blog/blogView?id=${blogInfo.id}">查看更多</a> <a
+												class="ml-2" href="<%=path%>/blog/blogEdit?id=${blogInfo.id}">编辑</a>
 										</div>
 									</li>
 								</c:forEach>
@@ -133,7 +133,7 @@
 							<c:otherwise>
 								<c:forEach items="${tags}" var="tagInfo">
 									<li class="list-group-item"><a
-										href="${pageContext.request.contextPath}/blogs?tagId=${tagInfo.id}">
+										href="<%=path%>/tag/tagInfo?tagId=${tagInfo.id}">
 											<i class="fa fa-tag" aria-hidden="true"></i> ${tagInfo.name}
 									</a></li>
 								</c:forEach>
