@@ -52,8 +52,8 @@ public class BlogViewServlet extends HttpServlet {
 		PostgresDriver postgresDriver = new PostgresDriver();
 		session.setAttribute("blogInfo", postgresDriver.getBlogInfo(Integer.parseInt(blogId)));
 		session.setAttribute("userInfo", userInfo);
-		System.out.println(request.getContentType());
-		System.out.println(blogId);
+		//System.out.println(request.getContentType());
+		//System.out.println(blogId);
 		request.getRequestDispatcher("../blog/view.jsp").forward(request, response);
 	}
 

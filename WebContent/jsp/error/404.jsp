@@ -36,7 +36,7 @@
 		<div class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
+					<a class="navbar-brand" href="<%=path%>/index.jsp">${userInfo == null? "个人": userInfo.loginName}博客</a>
 				</div>
 				<!-- 布局在导航栏右侧 -->
 				<ul class="nav navbar-nav navbar-right">
@@ -55,18 +55,10 @@
 		<!-- 正文区 -->
 		<div class="row-fluid center-block" style="max-width: 400px;">
 			<c:choose>
-				<c:when test="${userCheckResultUnlogin == null}"></c:when>
+				<c:when test="${authenticationResult == null}"></c:when>
 				<c:otherwise>
 					<div class="alert alert-danger" role="alert">
-						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultUnlogin}</i>
-					</div>
-				</c:otherwise>
-			</c:choose>
-			<c:choose>
-				<c:when test="${userCheckResultRelogin == null}"></c:when>
-				<c:otherwise>
-					<div class="alert alert-danger" role="alert">
-						<i class="fa fa-exclamation-triangle" aria-hidden="true">${userCheckResultRelogin}</i>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true">${authenticationResult}</i>
 					</div>
 				</c:otherwise>
 			</c:choose>

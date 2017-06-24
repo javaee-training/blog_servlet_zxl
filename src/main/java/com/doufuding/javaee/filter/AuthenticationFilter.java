@@ -14,9 +14,9 @@ import com.doufuding.java.model.UserInfo;
 
 /**
  * Servlet Filter implementation class AuthenticationFilter
- *权限过滤器。存在问题暂时不使用
+ *
  */
-//@WebFilter(filterName="authenticationFilter", urlPatterns="/*")
+//@WebFilter(filterName="authenticationFilter", urlPatterns="/*" )
 public class AuthenticationFilter implements Filter {
 
     /**
@@ -42,25 +42,38 @@ public class AuthenticationFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getServletPath();
+		System.out.println(uri);
+		System.out.println("权限过滤器");
 		String login = "/jsp/user/login";
 		String register = "/jsp/user/register";
-		if (isNotMatch(uri, login) && isNotMatch(uri, register)) {
+		String jsp = ".jsp";
+		if ((isNotMatch(uri, login) && isNotMatch(uri, register)&&isNotMatchJsp(uri, jsp))) {
+			System.out.println("1");
 			HttpSession session = req.getSession(false);
 			if (session == null) {
 				session = req.getSession();
 				session.setAttribute("authenticationResult", "用户未登录，请<a href=\"../user/login.jsp\">登录</a>");
-				
+				request.getRequestDispatcher("/jsp/error/404.jsp").forward(request, response);
 				return ;
 			}
 			UserInfo userInfo = (UserInfo) req.getAttribute("userInfo");
 			if (userInfo == null) {
 				session.setAttribute("authenticationResult", "登录已过期，请重新<a href=\"../user/login.jsp\">登录</a>");
+				request.getRequestDispatcher("/jsp/error/404.jsp").forward(request, response);
 				return ;
 			}
 		}
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
+	}
+	
+	private boolean isNotMatchJsp(String uri, String jsp) {
+		if (uri.endsWith(jsp)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	/*

@@ -50,7 +50,7 @@
 				<label class="fa fa-tags">${blogInfo.tags}</label>
 				<div>
 					<!-- 时间格式有待更改 -->
-					<label>${blogInfo.createUserName} ${blogInfo.createTime}</label> <a href="<%=path%>/blog/blogEdit">编辑</a>
+					<label>${blogInfo.createUserName} ${blogInfo.createTime}</label> <a href="<%=path%>/blog/blogEdit?id="${blogInfo.id}>编辑</a>
 				</div>
 				<ul style="list-style: none;">
 					<li style="list-style: none;">${blogInfo.content}</li>
