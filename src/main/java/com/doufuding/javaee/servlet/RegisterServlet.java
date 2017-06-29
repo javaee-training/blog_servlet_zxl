@@ -1,8 +1,8 @@
 package com.doufuding.javaee.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Statement;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.doufuding.java.dao.impl.JdbcUserDao;
 import com.doufuding.java.model.UserInfo;
-import com.doufuding.java.util.Md5Util;
-import com.doufuding.java.util.PostgresDriver;
+//import com.doufuding.java.util.Md5Util;
+//import com.doufuding.java.util.PostgresDriver;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -59,27 +60,29 @@ public class RegisterServlet extends HttpServlet {
 		userInfo.setLoginName(username);
 		userInfo.setPassword(password);
 		
-		//打开数据库链接
-		PostgresDriver postgresDriver = new PostgresDriver();
+		JdbcUserDao addUser = new JdbcUserDao();
 		
-		String sql = "insert into bg_user(user_name, user_password) values ('"+username+"','"+Md5Util.getMd5(password)+"')";
-		Statement statement = null;
-		try {
-			statement = postgresDriver.getConnection().createStatement();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		int row = 0;
-		try {
-			row = statement.executeUpdate(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("SQL语句执行错误。");
-		}
+//		//打开数据库链接
+//		PostgresDriver postgresDriver = new PostgresDriver();
+//		
+//		String sql = "insert into bg_user(user_name, user_password) values ('"+username+"','"+Md5Util.getMd5(password)+"')";
+//		Statement statement = null;
+//		try {
+//			statement = postgresDriver.getConnection().createStatement();
+//		} catch (SQLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		int row = 0;
+//		try {
+//			row = statement.executeUpdate(sql);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("SQL语句执行错误。");
+//		}
 		
-		if (row == 0) {
+		if (!addUser.addUser(username, password)) {
 			session.setAttribute("userCheckResultRegister", "未知原因导致注册失败。可能该用户已注册。<a href=\"../jsp/user/login.jsp\">登录</a>");
 			request.getRequestDispatcher("../user/register.jsp").forward(request, response);
 			return ;
