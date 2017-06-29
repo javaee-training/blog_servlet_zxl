@@ -204,4 +204,51 @@ public class JdbcUserDao implements UserDao{
 		return false;
 	}
 
+	@Override
+	public int getCount() {
+		DataSource dataSource = DbUtil.getDataSource();
+		
+		Connection connection = null;
+		PreparedStatement psCount = null;
+		ResultSet rSet = null;
+		int count = 0;
+		
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String sql = "select count(*) from bg_user";
+		
+		try {
+			psCount = connection.prepareStatement(sql);
+			rSet = psCount.executeQuery();
+			if (rSet.next()) {
+				count = rSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (rSet != null) {
+				try {
+					rSet.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					psCount.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);
+		}
+		
+		return count;
+	}
+
 }

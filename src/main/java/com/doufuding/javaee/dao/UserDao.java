@@ -17,4 +17,7 @@ public interface UserDao {
 	//修改用户名
 	public boolean deleteUser(int userId);
 	
+	//获得用户人数
+	public int getCount();
+	
 }
