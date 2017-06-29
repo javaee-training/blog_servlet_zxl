@@ -32,8 +32,22 @@ public class JdbcUserDao implements UserDao{
 			userName = rSet.getString("user_name");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (rSet != null) {
+				try {
+					rSet.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				try {
+					psUserName.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);
 		}
-		
+
 		return userName;
 	}
 
@@ -55,8 +69,16 @@ public class JdbcUserDao implements UserDao{
 			psAddUser.setString(2, userPassword);
 			rows = psAddUser.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (psAddUser != null) {
+				try {
+					psAddUser.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);
 		}
 		if (rows != 0) {
 			return true;
@@ -66,17 +88,118 @@ public class JdbcUserDao implements UserDao{
 
 	@Override
 	public boolean updateUserName(int userId, String userName) {
+		DataSource dataSource = DbUtil.getDataSource();
+		Connection connection = null;
+		PreparedStatement psUpdateUserName = null;
+		int rows = 0;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String sql = "update bg_user set user_name= ? where user_id = ?";
+		try {
+			psUpdateUserName = connection.prepareStatement(sql);
+			psUpdateUserName.setString(1, userName);
+			psUpdateUserName.setInt(2, userId);
+			rows = psUpdateUserName.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (psUpdateUserName != null) {
+				try {
+					psUpdateUserName.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);
+		}
+
+		if (rows != 0) {
+			return true;
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean deleteUser(int userId) {
+		DataSource dataSource = DbUtil.getDataSource();
+
+		Connection connection = null;
+		PreparedStatement psDeleteUser = null;
+		int rows = 0;
+
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String sql = "delete * from bg_user where user_id = ?";
+
+		try {
+			psDeleteUser = connection.prepareStatement(sql);
+			psDeleteUser.setInt(1, userId);
+			rows = psDeleteUser.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (psDeleteUser != null) {
+				try {
+					psDeleteUser.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);		
+		}
+		if (rows != 0) {
+			return true;
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean updateUserPassword(int userId, String userPassword) {
-		// TODO Auto-generated method stub
+		DataSource dataSource = DbUtil.getDataSource();
+		
+		Connection connection = null;
+		PreparedStatement psUpdatePwd = null;
+		int rows = 0;
+		
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		String sql = "update bg_user set user_password = ? where user_id = ?";
+		try {
+			psUpdatePwd = connection.prepareStatement(sql);
+			psUpdatePwd.setString(1, userPassword);
+			psUpdatePwd.setInt(2, userId);
+			rows = psUpdatePwd.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (psUpdatePwd != null) {
+				try {
+					psUpdatePwd.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			DbUtil.closeConnection(connection);
+		}
+		
+		if (rows != 0) {
+			return true;
+		}
+		
 		return false;
 	}
 
