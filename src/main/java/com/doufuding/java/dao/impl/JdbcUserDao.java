@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import com.doufuding.java.util.DbUtil;
+import com.doufuding.java.util.Md5Util;
 import com.doufuding.javaee.dao.UserDao;
 
 public class JdbcUserDao implements UserDao{
@@ -66,7 +67,7 @@ public class JdbcUserDao implements UserDao{
 		try {
 			psAddUser = connection.prepareStatement(sql);
 			psAddUser.setString(1, userName);
-			psAddUser.setString(2, userPassword);
+			psAddUser.setString(2, Md5Util.getMd5(userPassword));
 			rows = psAddUser.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
